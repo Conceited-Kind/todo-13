@@ -1,36 +1,33 @@
 import React from "react";
 
-const Todos = ({todos, setTodos}) => {
-
-    const handleClick = (e) => {
-        console.log("I am clicked");
-        console.log(e);
-        
-        
-    }
-
-    const handlDelete = (id) => {
-        let newArray = todos.filter((todo) => id !== todo.id);
+const Todos = ({ todos, setTodos }) => {
+    const handleDelete = (id) => {
+        const newArray = todos.filter((todo) => id !== todo.id);
         setTodos(newArray);
-        console.log(newArray);
+    };
+
+    if (todos.length === 0) {
+        return <p className="text-gray-500 italic">No todos for today</p>;
     }
 
-
-    if (todos.length == 0) {
-        return <p>No todos for today</p>
-    }
-    
     return (
         <ul>
-            {todos.map((todo) => <li key={todo.id}>
-                <span>id: {todo.id}</span>
-                <span>body: {todo.body}</span>
-                <button onClick={() => handlDelete(todo.id)} >delete</button>
-            </li>
-            )}
+            {todos.map((todo) => (
+                <li key={todo.id} className="todo-item">
+                    <div>
+                        <span className="todo-text">{todo.body}</span>
+                    </div>
+                    <button
+                        onClick={() => handleDelete(todo.id)}
+                        className="delete-button"
+                        aria-label={`Delete ${todo.body}`}
+                    >
+                        Delete
+                    </button>
+                </li>
+            ))}
         </ul>
-    )
-}
+    );
+};
 
-
-export default Todos
+export default Todos;

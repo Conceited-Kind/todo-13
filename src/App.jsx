@@ -1,38 +1,56 @@
 import { useState } from 'react';
-import './App.css'
+import './App.css';
+import './index.css';
 import Button from './components/Button';
-import Todos from './components/Todos';7
+import Todos from './components/Todos';
 import { TODOS } from './data/data';
 
 function App() {
-
   const [todos, setTodos] = useState(TODOS);
+  const [inputValue, setInputValue] = useState('');
 
-  console.log(todos);
-  
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
-    
-  }
+    if (!inputValue.trim()) return;
 
+    const newTodo = {
+      id: Date.now(),
+      body: inputValue.trim(),
+    };
+
+    setTodos([...todos, newTodo]);
+    setInputValue('');
+  };
 
   return (
-   <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="todo" />
-        <button type='submit'>Add Todo</button>
+    <div className="todo-app">
+      <h1>Todo App</h1>
+
+      <form onSubmit={handleSubmit} className="todo-form">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          className="todo-input"
+          placeholder="Add a new todo"
+        />
+        <button type="submit" className="add-button">
+          Add Todo
+        </button>
       </form>
 
-      <h2>My todos</h2>
-      <Todos todos={todos} setTodos={setTodos} />
-      <Button />
-      <Button greeting="jambo" />
-      <Button greeting="konichiwa" />
+      <div className="todos-container">
+        <h2 className="todos-heading">My Todos</h2>
+        <Todos todos={todos} setTodos={setTodos} />
+      </div>
 
-   </div>
-  )
+      <div className="button-container">
+        <button className="custom-button hello-button">Hello</button>
+        <button className="custom-button jambo-button">Jambo</button>
+        <button className="custom-button konichiwa-button">Konichiwa</button>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
